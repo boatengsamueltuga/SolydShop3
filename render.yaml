@@ -1,0 +1,70 @@
+databases:
+  - name: ecommerce-db
+    plan: free
+    databaseName: ecommerce
+    user: ecommerce_user
+
+services:
+  # Backend - Spring Boot API
+  - type: web
+    name: ecommerce-backend
+    plan: free
+    runtime: docker
+    dockerfilePath: ./myecomm-backend/Dockerfile
+    dockerContext: ./myecomm-backend
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ecommerce-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: ecommerce-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: ecommerce-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: ecommerce-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: ecommerce-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: FRONTEND_URL
+        value: https://ecommerce-frontend-XXXX.onrender.com
+        # TODO: Update after frontend deploys with actual URL
+      - key: IMAGE_BASE_URL
+        value: https://ecommerce-backend-XXXX.onrender.com/images
+        # TODO: Update after backend deploys with actual URL
+      - key: SHOW_SQL
+        value: "false"
+      - key: COOKIE_SECURE
+        value: "true"
+
+  # Frontend - React/Vite Static Site
+  - type: web
+    name: ecommerce-frontend
+    plan: free
+    runtime: static
+    buildCommand: cd Ecom-Frontend/vite-reactEcomfrontend && npm ci && npm run build
+    staticPublishPath: Ecom-Frontend/vite-reactEcomfrontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_BACK_END_URL
+        value: https://ecommerce-backend-XXXX.onrender.com
+        # TODO: Update after backend deploys with actual URL
+      - key: VITE_STRIPE_PUBLISHABLE_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: VITE_FRONTEND_URL
+        value: https://ecommerce-frontend-XXXX.onrender.com
+        # TODO: Update after frontend deploys with actual URL

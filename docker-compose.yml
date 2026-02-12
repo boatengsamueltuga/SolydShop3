@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: boa@450$$asdF
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./myecomm-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ecommerce
+      DB_USERNAME: postgres
+      DB_PASSWORD: boa@450$$asdF
+      FRONTEND_URL: http://localhost:3000/
+      IMAGE_BASE_URL: http://localhost:8080/images
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      SHOW_SQL: "true"
+
+  frontend:
+    build:
+      context: ./Ecom-Frontend/vite-reactEcomfrontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BACK_END_URL: http://localhost:8080
+        VITE_STRIPE_PUBLISHABLE_KEY: ${VITE_STRIPE_PUBLISHABLE_KEY}
+        VITE_FRONTEND_URL: http://localhost:3000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
