@@ -214,7 +214,6 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .csrf(csrf -> csrf.disable())
-                .cors(cors ->{})
 
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(unauthorizedHandler))
@@ -234,6 +233,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/error").permitAll()
 
                         // 🔥 EXPLICIT ADMIN DELETE
                         .requestMatchers(HttpMethod.DELETE, "/api/admin/products/**")

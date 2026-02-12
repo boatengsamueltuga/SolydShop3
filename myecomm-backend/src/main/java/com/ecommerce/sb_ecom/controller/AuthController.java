@@ -14,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,10 +29,15 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        AuthenticationResult result = authService.login(loginRequest);
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,
-                result.getJwtCookie().toString())
-                        .body(result.getResponse());
+        try {
+            AuthenticationResult result = authService.login(loginRequest);
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,
+                    result.getJwtCookie().toString())
+                    .body(result.getResponse());
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(401)
+                    .body(new MessageResponse("Bad credentials: Invalid username or password"));
+        }
     }
 
     @PostMapping("/signup")
