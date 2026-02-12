@@ -37,6 +37,9 @@ public class AuthController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401)
                     .body(new MessageResponse("Bad credentials: Invalid username or password"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new MessageResponse("Login error: " + e.getClass().getSimpleName() + " - " + e.getMessage()));
         }
     }
 
