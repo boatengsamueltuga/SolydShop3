@@ -47,6 +47,12 @@ services:
         value: "false"
       - key: COOKIE_SECURE
         value: "true"
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false  # Set manually in Render dashboard
+      - key: CLOUDINARY_API_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: CLOUDINARY_API_SECRET
+        sync: false  # Set manually in Render dashboard
 
   # Frontend - React/Vite Static Site
   - type: web

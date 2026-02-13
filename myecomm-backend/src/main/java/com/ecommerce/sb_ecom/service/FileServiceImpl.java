@@ -1,39 +1,29 @@
 package com.ecommerce.sb_ecom.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
+import java.util.Map;
 
 @Service
 public class FileServiceImpl implements FileService {
 
+    @Autowired
+    private Cloudinary cloudinary;
+
     @Override
     public String uploadImage(String dir, MultipartFile file) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap(
+                "folder", dir,
+                "resource_type", "image"
+        ));
 
-        //Resolve relative to PROJECT ROOT (NOT resources)
-        Path uploadDir = Paths.get(System.getProperty("user.dir"))
-                .resolve(dir)
-                .normalize();
-
-        Files.createDirectories(uploadDir);
-
-        String originalFileName = file.getOriginalFilename();
-        String extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
-
-        String fileName = UUID.randomUUID().toString().concat(extension);
-
-
-        Path filePath = uploadDir.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        System.out.println("Uploaded to: " + filePath.toAbsolutePath());
-
-        return fileName;
+        String secureUrl = (String) uploadResult.get("secure_url");
+        System.out.println("Uploaded to Cloudinary: " + secureUrl);
+        return secureUrl;
     }
 }

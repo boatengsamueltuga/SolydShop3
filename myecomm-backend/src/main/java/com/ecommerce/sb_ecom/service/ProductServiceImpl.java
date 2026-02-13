@@ -156,6 +156,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private String constructImageUrl(String imageName){
+        if (imageName != null && imageName.startsWith("http")) {
+            return imageName;
+        }
         return imageBaseUrl.endsWith("/") ? imageBaseUrl + imageName : imageBaseUrl + "/" + imageName;
     }
 
@@ -230,8 +233,8 @@ public class ProductServiceImpl implements ProductService {
         Product productFromDb = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-        String fileName = fileService.uploadImage(path, image);
-        productFromDb.setImage(fileName);
+        String imageUrl = fileService.uploadImage(path, image);
+        productFromDb.setImage(imageUrl);
 
         Product updated = productRepository.save(productFromDb);
         return modelMapper.map(updated, ProductDTO.class);
