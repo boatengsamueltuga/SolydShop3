@@ -23,7 +23,6 @@ public class FileServiceImpl implements FileService {
         ));
 
         String secureUrl = (String) uploadResult.get("secure_url");
-        System.out.println("Uploaded to Cloudinary: " + secureUrl);
         return secureUrl;
     }
 }
