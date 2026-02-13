@@ -10,23 +10,23 @@ export const bannerLists = [
   {
     id: 1,
     image: bannerImageOne,
-    title: "Home Comfort",
-    subtitle: "Living Room",
-    description: "Upgrade your space with cozy and stylish sofas",
+    title: "Built to Last",
+    subtitle: "Heavy-Duty Parts",
+    description: "Premium engine components for construction and mining equipment",
   },
   {
     id: 2,
     image: bannerImageTwo,
-    title: "Entertainment Hub",
-    subtitle: "Smart TV",
-    description: "Experience the latest in home entertainment",
+    title: "Industrial Grade",
+    subtitle: "Precision Engineering",
+    description: "High-performance machinery parts for maximum uptime",
   },
   {
     id: 3,
     image: bannerImageThree,
-    title: "Playful Picks",
-    subtitle: "Kids' Clothing",
-    description: "Bright and fun styles for kids, up to 20% off",
+    title: "Reliable Supply",
+    subtitle: "Equipment Components",
+    description: "OEM-quality parts for excavators, loaders, and heavy machinery",
   },
 ];
 

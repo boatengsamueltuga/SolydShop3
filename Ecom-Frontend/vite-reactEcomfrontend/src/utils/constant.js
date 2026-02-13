@@ -1,6 +1,6 @@
-import bannerImageOne from "../assets/sliders/flat-lay.jpg";
-import bannerImageTwo from "../assets/sliders/people.jpg";
-import bannerImageThree from "../assets/sliders/natural-cosmetic.jpg";
+import bannerImageOne from "../assets/sliders/machinery-1.jpg";
+import bannerImageTwo from "../assets/sliders/machinery-2.jpg";
+import bannerImageThree from "../assets/sliders/machinery-3.jpg";
 import aboutUsImage from "../assets/sliders/team-business.jpg";
 
 /* HERO BANNER IMAGES */
