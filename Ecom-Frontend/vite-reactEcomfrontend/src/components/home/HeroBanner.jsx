@@ -9,58 +9,60 @@ import 'swiper/css/autoplay';
 
 // Import Swiper styles
 import 'swiper/css';
-import { Autoplay, EffectFade, Pagination,  Navigation} from 'swiper/modules'
-import { bannerLists } from '../../utils'; 
+import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules'
+import { bannerLists } from '../../utils';
 import { Link } from 'react-router-dom';
 
-const colors= ["bg-banner-color1", "bg-banner-color2", "bg-banner-color3"];
 const HeroBanner = () => {
     return (
-        <div className='py-2 roung-md'>
-<Swiper 
-grabCursor={true}
-autoplay={{
-    delay:4000,
-    disableOnInteraction:false,
-}}
-navigation
-modules={[Pagination, EffectFade, Navigation, Autoplay]}
-pagination={{clickable:true}}
-scrollbar={{draggable:true}}
-slidesPerView={1}
->
-{bannerLists.map((item, i) => (
-    <SwiperSlide key={item.id}>
-        <div className={`carousel-item rounded-md sm:h-[500px] h-96 ${colors[i]}`}>
-            <div className='flex items-center justify-center'>
-                <div className='hidden lg:flex justify-center w-1/2 p-8'>
-                <div className='text-center'>
-                    <h3 className='text-3xl text-white font-bold'>
-                        {item.title}
-                    </h3>
-                    <h1 className='text-5xl text-white font-bold mt-2'>
-                        {item.subtitle}
-                    </h1>
-                    <p className='text-white font-bold mt-4'>
-                        {item.description}
-                    </p>
-                    <Link 
-                       className='mt-6 inline-block bg-black text-white py-2 px-4 rounded hover:bg-gray-800'
-                       to="/products">
-                        Shop
-                    </Link>
-                </div>
-            </div>
-            <div className='w-full flex justify-center lg:w-1/2 p-4'>
-                <img src={item?.image}></img>
-            </div>
-            </div>
-        </div>
-
-    </SwiperSlide>
-))}
-
-</Swiper>
+        <div className='py-2 rounded-md'>
+            <Swiper
+                grabCursor={true}
+                autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                }}
+                navigation
+                modules={[Pagination, EffectFade, Navigation, Autoplay]}
+                effect="fade"
+                pagination={{ clickable: true }}
+                scrollbar={{ draggable: true }}
+                slidesPerView={1}
+            >
+                {bannerLists.map((item) => (
+                    <SwiperSlide key={item.id}>
+                        <div className="relative rounded-md sm:h-[500px] h-96 overflow-hidden">
+                            {/* Background image */}
+                            <img
+                                src={item?.image}
+                                alt={item.title}
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            {/* Dark gradient overlay for blending */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+                            {/* Content */}
+                            <div className="relative z-10 flex items-center h-full px-8 sm:px-16">
+                                <div className="max-w-xl">
+                                    <h3 className="text-lg sm:text-2xl text-yellow-400 font-semibold tracking-wider uppercase">
+                                        {item.title}
+                                    </h3>
+                                    <h1 className="text-3xl sm:text-5xl text-white font-bold mt-2 leading-tight">
+                                        {item.subtitle}
+                                    </h1>
+                                    <p className="text-gray-200 text-sm sm:text-base mt-4 max-w-md">
+                                        {item.description}
+                                    </p>
+                                    <Link
+                                        className="mt-6 inline-block bg-yellow-500 text-black font-bold py-3 px-8 rounded hover:bg-yellow-400 transition-colors duration-200"
+                                        to="/products">
+                                        Shop Now
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     )
 }
