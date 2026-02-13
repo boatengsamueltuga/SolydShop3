@@ -13,7 +13,6 @@ public class CloudinaryConfig {
 
     @Bean
     public Cloudinary cloudinary() {
-        System.out.println("Cloudinary URL loaded: " + (cloudinaryUrl != null && !cloudinaryUrl.isEmpty() ? "SET" : "EMPTY"));
         return new Cloudinary(cloudinaryUrl);
     }
 }
